@@ -43,11 +43,11 @@
 #' @export
 compile_model <- function(model_filepath = system.file("stan",
                             "wwinference.stan",
-                            package = "wwinference"
+                            package = "spatialwwinference"
                           ),
                           include_paths = system.file(
                             "stan",
-                            package = "wwinference"
+                            package = "spatialwwinference"
                           ),
                           threads = FALSE,
                           target_dir = tempdir(),

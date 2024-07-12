@@ -21,6 +21,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Kaitlyn Johnson \email{uox1@cdc.gov} (\href{https://orcid.org/0000-0001-8011-0012}{ORCID})
   \item Sam Abbott \email{contact@samabbott.co.uk} (\href{https://orcid.org/0000-0001-8057-8037}{ORCID})
   \item Zachary Susswein \email{utb2@cdc.gov}
   \item Andrew Magee \email{rzg0@cdc.gov}

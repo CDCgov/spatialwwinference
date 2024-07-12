@@ -6,8 +6,9 @@
 include directory (\code{stan}) for #include statements}
 \usage{
 compile_model(
-  model_filepath = system.file("stan", "wwinference.stan", package = "wwinference"),
-  include_paths = system.file("stan", package = "wwinference"),
+  model_filepath = system.file("stan", "wwinference.stan", package =
+    "spatialwwinference"),
+  include_paths = system.file("stan", package = "spatialwwinference"),
   threads = FALSE,
   target_dir = tempdir(),
   stanc_options = list(),
