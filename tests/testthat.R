@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(wwinference)
+library(spatialwwinference)
 
-test_check("wwinference")
+test_check("spatialwwinference")
