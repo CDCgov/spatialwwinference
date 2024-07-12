@@ -1,26 +1,84 @@
-# CDCgov GitHub Organization Open Source Project Template
+# `wwinference`: joint inference and forecasting from wastewater and epidemiological indicators
 
-**Template for clearance: This project serves as a template to aid projects in starting up and moving through clearance procedures. To start, create a new repository and implement the required [open practices](open_practices.md), train on and agree to adhere to the organization's [rules of behavior](rules_of_behavior.md), and [send a request through the create repo form](https://forms.office.com/Pages/ResponsePage.aspx?id=aQjnnNtg_USr6NJ2cHf8j44WSiOI6uNOvdWse4I-C2NUNk43NzMwODJTRzA4NFpCUk1RRU83RTFNVi4u) using language from this template as a Guide.**
-
-**General disclaimer** This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/organization/mission.htm).  GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise. 
-
-## Access Request, Repo Creation Request
-
-* [CDC GitHub Open Project Request Form](https://forms.office.com/Pages/ResponsePage.aspx?id=aQjnnNtg_USr6NJ2cHf8j44WSiOI6uNOvdWse4I-C2NUNk43NzMwODJTRzA4NFpCUk1RRU83RTFNVi4u) _[Requires a CDC Office365 login, if you do not have a CDC Office365 please ask a friend who does to submit the request on your behalf. If you're looking for access to the CDCEnt private organization, please use the [GitHub Enterprise Cloud Access Request form](https://forms.office.com/Pages/ResponsePage.aspx?id=aQjnnNtg_USr6NJ2cHf8j44WSiOI6uNOvdWse4I-C2NUQjVJVDlKS1c0SlhQSUxLNVBaOEZCNUczVS4u).]_
-
-## Related documents
-
-* [Open Practices](open_practices.md)
-* [Rules of Behavior](rules_of_behavior.md)
-* [Thanks and Acknowledgements](thanks.md)
-* [Disclaimer](DISCLAIMER.md)
-* [Contribution Notice](CONTRIBUTING.md)
-* [Code of Conduct](code-of-conduct.md)
+> [!CAUTION]
+> This project is a work-in-progress.
+It meant to be used to develop spatial components
+of the wastewater informed forecasting model.
+Despite this project's early stage, all development is in public as part of the Center for Forecasting and Outbreak Analytics' goals around open development. Questions and suggestions are welcome through GitHub issues or a PR.
+>
 
 ## Overview
 
-Describe the purpose of your project. Add additional sections as necessary to help collaborators and potential collaborators understand and use your project.
-  
+This project is an in-development R package, `{wwinference}` that estimates latent incident infections from wastewater concentration data and data on epidemiological indicators, with an initial assumed structure that the wastewater concentration data comes from subsets of the population contributing to the "global" epidemiological indicator data, such as hospital admissions.
+In brief, our model builds upon [EpiNow2](https://github.com/epiforecasts/EpiNow2/tree/main), a widely used [R](https://www.r-project.org/) and [Stan](https://mc-stan.org/) package for Bayesian epidemiological inference.
+We modify EpiNow2 to add model for the observed viral RNA concentration in wastewater, adding hierarchical structure to link the subpopulations represented by the osberved wastewater concentrations in each wastewater catchment area.
+See our Model Definition page for a mathematical description of the generative model, and the Getting Stated vignette to see an example of how to run the inference model on simulated data.
+
+The intention is for {wwinference} to provide a user-friendly R-package interface for running forecasting models that use wastewater concentrations combined with other more traditional epidemiological signals such as cases or hospital admissions. It aims to be a re-implementation of the modeling components contained in the [wastewater-informed-covid-forecasting](https://github.com/CDCgov/wastewater-informed-covid-forecasting) project repository, with
+an emphasis here on making it easier for users to supply their own data.
+
+We recommend reading the [model definition](model_definition.md) to learn more about how the model is structured and running the ["Getting Started" vignette](vignettes/wwinference.Rmd) for an example of how to fit the model to simulated data of COVID-19 hospital admissions and wastewater concentrations.
+This will help make clear the data requirements and how to structure this data to fit the model.
+
+## Project Admins
+- Kaitlyn Johnson (kaitejohnson)
+- Dylan Morris (dylanhmorris)
+- Sam Abbott (seabbs)
+- Damon Bayer (damonbayer)
+
+# Installing and running code
+
+## Install R
+To run our code, you will need a working installation of [R](https://www.r-project.org/) (version `4.3.0` or later). You can find instructions for installing R on the official [R project website](https://www.r-project.org/).
+
+## Install `cmdstanr` and `CmdStan`
+We do inference from our models using [`CmdStan`](https://mc-stan.org/users/interfaces/cmdstan) (version `2.35.0` or later) via its R interface [`cmdstanr`](https://mc-stan.org/cmdstanr/) (version `0.8.0` or later).
+
+Open an R session and run the following command to install `cmdstanr` per that package's [official installation guide](https://mc-stan.org/cmdstanr/#installation).
+
+```R
+install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+```
+
+`cmdstanr` provides tools for installing `CmdStan` itself. First check that everything is properly configured by running:
+
+```R
+cmdstanr::check_cmdstan_toolchain()
+```
+
+You should see the following:
+```
+The C++ toolchain required for CmdStan is setup properly!
+```
+
+If you do, you can then install `CmdStan` by running:
+```R
+cmdstanr::install_cmdstan()
+```
+If installation succeeds, you should see a message like the following:
+```
+CmdStan path set to: {a path on your file system}
+```
+
+If you run into trouble, consult the official [`cmdstanr`](https://mc-stan.org/cmdstanr/index.html) website for further installation guides and help.
+
+## Download this repository and install the project package (`wwinference`)
+Once `cmdstanr` and `CmdStan` are installed, the next step is to download this repository and install the package, `wwinference`. The package provides tools for specifying and running the model, and installs other needed dependencies.
+
+Once you have downloaded this repository, navigate to it within an R session and run the following:
+
+```R
+install.packages('remotes')
+remotes::install_local()
+```
+
+## R dependencies
+Installing the project package should take care of almost all dependencies installations. Confirm that package installation has succeeded by running the following within an R session:
+
+```R
+library(wwinference)
+```
+
 ## Public Domain Standard Notice
 This repository constitutes a work of the United States Government and is not
 subject to domestic copyright protection under 17 USC § 105. This repository is in
