@@ -136,7 +136,9 @@ generate_simulated_data <- function(r_in_weeks = # nolint
   )
   
   # presetting corr_fun_params
-  if(is.null(corr_fun_params)){ corr_fun_params = list(num_sites = n_sites)}
+  if(is.null(corr_fun_params)){ 
+    corr_fun_params = list(num_sites = n_sites)
+  }
 
 
   # Get pop fractions of each subpop. There will n_sites + 1 subpops
@@ -297,27 +299,37 @@ generate_simulated_data <- function(r_in_weeks = # nolint
   }
   log_r_site <- spatial_rt_process(log_r_state_week, corr_function, corr_fun_params, phi_rt, sigma_eps)
   # Auxiliary Site
-  if(aux_site_bool){
-    log_r_site_aux <- matrix(data = 0,
-                             nrow = 1,
-                             ncol = ncol(log_r_site))
-    delta <- matrix(data = 0,
-                    nrow = 1,
-                    ncol = ncol(log_r_site))
-    delta[1] <- rnorm(n = 1,
-                      mean = 0,
-                      sd = sqrt(scaling_factor) * sigma_eps)
+  if (aux_site_bool) {
+    log_r_site_aux <- matrix(
+      data = 0,
+      nrow = 1,
+      ncol = ncol(log_r_site)
+    )
+    delta <- matrix(
+      data = 0,
+      nrow = 1,
+      ncol = ncol(log_r_site)
+    )
+    delta[1] <- rnorm(
+      n = 1,
+      mean = 0,
+      sd = sqrt(scaling_factor) * sigma_eps
+    )
     for (i in 2:ncol(log_r_site)) {
-      eps_temp <- rnorm(n = 1,
-                        mean = 0,
-                        sd = sqrt(scaling_factor) * sigma_eps)
+      eps_temp <- rnorm(
+        n = 1,
+        mean = 0,
+        sd = sqrt(scaling_factor) * sigma_eps
+      )
       delta[i] <- phi_rt * delta[i - 1] + eps_temp
     }
     for (i in 1:ncol(log_r_site)) {
       log_r_site_aux[i] <- log_r_state_week[i] + delta[i]
     }
-    log_r_site = rbind(log_r_site,
-                       log_r_site_aux)
+    log_r_site <- rbind(
+      log_r_site,
+      log_r_site_aux
+    )
   }
 
 
