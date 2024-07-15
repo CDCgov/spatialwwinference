@@ -8,9 +8,7 @@
 #'
 #' @return A matrix for unadjusted Rt where rows are subpopulations and columns are time points.
 #' 
-spatial_unadj_rt_process = function( log_state_Rt, corr_function, corr_function_params, phi_rt, sigma_eps, pre_seed = 1 ) {
-  
-  set.seed(pre_seed)
+spatial_unadj_rt_process = function(log_state_Rt, corr_function, corr_function_params, phi_rt, sigma_eps) {
   
   # correlation matrix constr.
   omega_matrix_eps = corr_function( corr_function_params )
