@@ -52,10 +52,13 @@
 #' to generate the simulated data
 #' @param corr_function Correlation function for spatial site correlations
 #' @param corr_fun_params Parameters required for correlation function
-#' @param phi_rt Coefficient for AR(1) temporal correlation on subpopulation deviations.
-#' @param sigma_eps Parameter for construction of covariance matrix of spatial epsilon.
+#' @param phi_rt Coefficient for AR(1) temporal correlation on subpopulation
+#' deviations.
+#' @param sigma_eps Parameter for construction of covariance matrix of spatial
+#' epsilon.
 #' @param scaling_factor Scaling factor for aux site.
-#' @param aux_site_bool Boolean to use the aux site framework with scaling factor.
+#' @param aux_site_bool Boolean to use the aux site framework with
+#' scaling factor.
 #'
 #' @return a list containing three dataframes. hosp_data is a dataframe
 #' containing the number of daily hospital admissions by day for a theoretical
@@ -134,10 +137,10 @@ generate_simulated_data <- function(r_in_weeks = # nolint
     "Site and lab indices don't align" =
       length(site) == length(lab)
   )
-  
+
   # presetting corr_fun_params
-  if(is.null(corr_fun_params)){ 
-    corr_fun_params = list(num_sites = n_sites)
+  if (is.null(corr_fun_params)) {
+    corr_fun_params <- list(num_sites = n_sites)
   }
 
 
@@ -297,7 +300,13 @@ generate_simulated_data <- function(r_in_weeks = # nolint
       sd = 0.5
     )
   }
-  log_r_site <- spatial_rt_process(log_r_state_week, corr_function, corr_fun_params, phi_rt, sigma_eps)
+  log_r_site <- spatial_rt_process(
+    log_r_state_week,
+    corr_function,
+    corr_fun_params,
+    phi_rt,
+    sigma_eps
+  )
   # Auxiliary Site
   if (aux_site_bool) {
     log_r_site_aux <- matrix(
@@ -315,7 +324,8 @@ generate_simulated_data <- function(r_in_weeks = # nolint
       mean = 0,
       sd = sqrt(scaling_factor) * sigma_eps
     )
-    for (i in 2:ncol(log_r_site)) {
+    n_t
+    for (i in 2:n_t) {
       eps_temp <- rnorm(
         n = 1,
         mean = 0,
@@ -323,7 +333,7 @@ generate_simulated_data <- function(r_in_weeks = # nolint
       )
       delta[i] <- phi_rt * delta[i - 1] + eps_temp
     }
-    for (i in 1:ncol(log_r_site)) {
+    for (i in 1:n_t) {
       log_r_site_aux[i] <- log_r_state_week[i] + delta[i]
     }
     log_r_site <- rbind(

@@ -3,8 +3,11 @@
 #' @param corr_function_params NULL
 #'
 #' @return Correlation matrix of diagonal ones.
-#' 
-independence_corr_func <- function(corr_function_params = list(num_sites = NULL)) {  
+#'
+independence_corr_func <- function(
+    corr_function_params = list(
+      num_sites = NULL
+    )) {
   # error managing
   stopifnot(
     "corr.function.params : NOT STRUCTURED CORRECTLY!!!
